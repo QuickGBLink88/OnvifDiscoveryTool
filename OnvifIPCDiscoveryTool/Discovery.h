@@ -11,6 +11,9 @@ public:
 	char          IP[32];
 	int           Port;
 
+	char          username[64];
+	char          password[64];
+
 	DEVICE_IPC_INFO()
 	{
 		memset(DeviceName, 0, sizeof(DeviceName));
@@ -18,6 +21,8 @@ public:
 		memset(IP, 0, sizeof(IP));
 		memset(hardware_type, 0, sizeof(hardware_type));
 		Port = 80;
+		memset(username, 0, sizeof(username));
+		memset(password, 0, sizeof(password));
 	}
 
 	DEVICE_IPC_INFO& operator =(const DEVICE_IPC_INFO& t) 
@@ -27,6 +32,8 @@ public:
 		strcpy(DeviceID, t.DeviceID);
 		strcpy(IP, t.IP);
 		Port = t.Port;
+		strcpy(username, t.username);
+		strcpy(password, t.password);
 
 		return *this;
 	}

@@ -31,6 +31,10 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	afx_msg void OnButtonRefresh();
     afx_msg void OnDestroy();
+
+	afx_msg void OnButtonGetStreamUrl();
+	afx_msg void OnButtonUserLoginInfo();
+
 	DECLARE_MESSAGE_MAP()
 public:
 		
@@ -39,4 +43,5 @@ public:
 	COnvifDiscovery   m_OnvifDevicesSearcher;
 	CListCtrl m_ctlList1;
 	
+
 };

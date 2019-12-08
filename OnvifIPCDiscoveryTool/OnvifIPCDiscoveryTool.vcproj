@@ -100,7 +100,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -186,11 +186,23 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\ColorStatic.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CommonFunctions.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\DeviceUserLoginInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Discovery.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GetStreamURLDlg.cpp"
 				>
 			</File>
 			<File
@@ -228,11 +240,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\ColorStatic.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CommonFunctions.h"
 				>
 			</File>
 			<File
+				RelativePath=".\DeviceUserLoginInfo.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Discovery.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GetStreamURLDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OnvifClientLib.h"
 				>
 			</File>
 			<File

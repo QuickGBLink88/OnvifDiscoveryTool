@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "OnvifIPCDiscoveryTool.h"
 #include "OnvifIPCDiscoveryToolDlg.h"
+#include "GetStreamURLDlg.h"
+#include "DeviceUserLoginInfo.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,6 +32,8 @@ BEGIN_MESSAGE_MAP(COnvifIPCDiscoveryToolDlg, CDialog)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BUTTON_REFRESH, &COnvifIPCDiscoveryToolDlg::OnButtonRefresh)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_BUTTON_GET_STREAM_URL, &COnvifIPCDiscoveryToolDlg::OnButtonGetStreamUrl)
+	ON_BN_CLICKED(IDC_BUTTON_USER_LOGIN_INFO, &COnvifIPCDiscoveryToolDlg::OnButtonUserLoginInfo)
 END_MESSAGE_MAP()
 
 
@@ -60,8 +64,8 @@ BOOL COnvifIPCDiscoveryToolDlg::OnInitDialog()
 	m_ctlList1.InsertColumn(0,"IP地址", LVCFMT_LEFT, 150);
 	m_ctlList1.InsertColumn(1,"序列号", LVCFMT_LEFT, 150);
     m_ctlList1.InsertColumn(2,"设备类型", LVCFMT_LEFT, 100);
-	m_ctlList1.InsertColumn(3,"硬件型号", LVCFMT_LEFT, 100);
-	m_ctlList1.InsertColumn(4,"版本信息", LVCFMT_LEFT, 100);
+	m_ctlList1.InsertColumn(3,"硬件型号", LVCFMT_LEFT, 150);
+	m_ctlList1.InsertColumn(4,"登录用户名", LVCFMT_LEFT, 120);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -159,4 +163,50 @@ void  COnvifIPCDiscoveryToolDlg::OnAddToList(DEVICE_IPC_INFO *pIPCInfo)
 
 	m_ctlList1.SetItemData(nListItem, (DWORD_PTR)pIPCInfo);
 }
+
+void COnvifIPCDiscoveryToolDlg::OnButtonUserLoginInfo()
+{
+	int nSelItem = m_ctlList1.GetSelectionMark();
+	if(nSelItem < 0)
+	{
+		MessageBox(_T("请选择一个IPC设备"), _T("提示"), MB_OK|MB_ICONWARNING);
+		return;
+	}
+
+	DEVICE_IPC_INFO * pIPCInfo = (DEVICE_IPC_INFO*)m_ctlList1.GetItemData(nSelItem);
+
+	CDeviceUserLoginInfo dlg;
+	dlg.m_strUserName = pIPCInfo->username;
+	dlg.m_strPassword = pIPCInfo->password;
+	if(dlg.DoModal() == IDOK)
+	{
+		strcpy_s(pIPCInfo->username, sizeof(pIPCInfo->username), dlg.m_strUserName);
+		strcpy_s(pIPCInfo->password, sizeof(pIPCInfo->password), dlg.m_strPassword);
+
+		m_ctlList1.SetItemText(nSelItem, 4, pIPCInfo->username);
+	}
+}
+
+void COnvifIPCDiscoveryToolDlg::OnButtonGetStreamUrl()
+{
+	int nSelItem = m_ctlList1.GetSelectionMark();
+	if(nSelItem < 0)
+	{
+		MessageBox(_T("请选择一个IPC设备"), _T("提示"), MB_OK|MB_ICONWARNING);
+		return;
+	}
+	DEVICE_IPC_INFO * pIPCInfo = (DEVICE_IPC_INFO*)m_ctlList1.GetItemData(nSelItem);
+	if(strlen(pIPCInfo->username) == 0 || strlen(pIPCInfo->password) == 0)
+	{
+		MessageBox(_T("未设置登录用户认证信息，不能获取设备的流URL"), _T("提示"), MB_OK|MB_ICONWARNING);
+		return;
+	}
+
+	CGetStreamURLDlg dlg(this, pIPCInfo);
+	if(dlg.DoModal() == IDOK)
+	{
+
+	}
+}
+
 
